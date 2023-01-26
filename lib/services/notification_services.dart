@@ -22,7 +22,7 @@ class NotificationServices {
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
 
-    final AndroidInitializationSettings initializationSettingsAndroid =
+    const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
 
     final InitializationSettings initializationSettings =
@@ -52,7 +52,7 @@ class NotificationServices {
   Future<void> onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) async {
     Get.dialog(
-      Text('Welcome to flutter'),
+      const Text('Welcome to flutter'),
     );
   }
 
@@ -99,7 +99,7 @@ class NotificationServices {
         0,
         'scheduled title',
         'theme changes 5 seconds ago',
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 9)),
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 15)),
         const NotificationDetails(
           android: AndroidNotificationDetails(
             'your channel id',

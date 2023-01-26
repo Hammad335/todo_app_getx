@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:todo_app_flutter/features/add_task_page/binding/add_task_binding.dart';
+import 'package:todo_app_flutter/features/add_task_page/view/add_task_page.dart';
 import 'package:todo_app_flutter/services/theme_services.dart';
-import 'package:todo_app_flutter/ui/home_page.dart';
-import 'ui/themes.dart';
+import 'features/home_page/view/home_page.dart';
+import 'themes/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,14 @@ class MyApp extends StatelessWidget {
       theme: Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().themeMode,
-      home: HomePage(),
+      initialRoute: '/home-page',
+      getPages: [
+        GetPage(
+            name: '/home-page',
+            page: () => HomePage(),
+            binding: AddTaskBinding()),
+        GetPage(name: '/add-task-page', page: () => AddTaskPage()),
+      ],
     );
   }
 }
