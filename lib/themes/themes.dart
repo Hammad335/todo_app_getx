@@ -14,6 +14,7 @@ const Color darkGrey = Color(0xFF121212);
 const Color headerDark = Color(0xFF424242);
 const Color primaryLight = blue;
 const Color primaryDark = darkGrey;
+Color? iconColor = Get.isDarkMode ? white : greyDark;
 
 class Themes {
   static final light = ThemeData(
