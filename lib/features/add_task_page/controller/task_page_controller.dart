@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app_flutter/utils/utils.dart';
+
+import '../../../themes/themes.dart';
 
 class TaskPageController extends GetxController {
   late BuildContext context;
@@ -11,7 +13,18 @@ class TaskPageController extends GetxController {
   RxString endTime = '9:30 AM'.obs;
   RxInt selectedRemindTime = 5.obs;
   RxString selectedRepeatTime = 'None'.obs;
+  RxInt selectedColorIndex = 0.obs;
   TextEditingController titleController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+
+  void validateData() {
+    if (titleController.text.isEmpty || noteController.text.isEmpty) {
+      Utils.showSnackBar();
+    } else {
+      //todo add data to database
+      Get.back();
+    }
+  }
 
   void setPickedTime(TimeOfDay? pickedTime, bool isStartTime) {
     if (null != pickedTime) {

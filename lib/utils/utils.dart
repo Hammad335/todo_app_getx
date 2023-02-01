@@ -2,8 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:todo_app_flutter/services/theme_services.dart';
 import 'package:get/get.dart';
 import '../services/notification_services.dart';
+import '../themes/themes.dart';
 
 class Utils {
+  static void showSnackBar() {
+    Get.snackbar(
+      'Required',
+      'Please fill the fields properly!',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Get.isDarkMode ? greyLight : grey,
+      colorText: black,
+      margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+      borderRadius: 20,
+      icon: const Icon(
+        Icons.warning_amber_rounded,
+        color: red,
+      ),
+    );
+  }
+
   static PreferredSizeWidget customAppBar({
     required BuildContext context,
     NotificationServices? notificationServices,

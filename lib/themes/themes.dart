@@ -8,13 +8,13 @@ const Color pink = Color(0xFFff4667);
 const Color white = Colors.white;
 const Color black = Colors.black;
 const Color grey = Colors.grey;
+const Color red = Colors.red;
 Color? greyLight = Colors.grey[100];
 Color? greyDark = Colors.grey[700];
 const Color darkGrey = Color(0xFF121212);
 const Color headerDark = Color(0xFF424242);
 const Color primaryLight = blue;
 const Color primaryDark = darkGrey;
-Color? iconColor = Get.isDarkMode ? white : greyDark;
 
 class Themes {
   static final light = ThemeData(
