@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:todo_app_flutter/db_helper/db_helper.dart';
 import 'package:todo_app_flutter/features/add_task_page/binding/add_task_binding.dart';
 import 'package:todo_app_flutter/features/add_task_page/view/add_task_page.dart';
+import 'package:todo_app_flutter/features/home_page/binding/home_page_binding.dart';
 import 'package:todo_app_flutter/services/theme_services.dart';
 import 'features/home_page/view/home_page.dart';
 import 'themes/themes.dart';
@@ -29,10 +30,15 @@ class MyApp extends StatelessWidget {
       initialRoute: '/home-page',
       getPages: [
         GetPage(
-            name: '/home-page',
-            page: () => HomePage(),
-            binding: AddTaskBinding()),
-        GetPage(name: '/add-task-page', page: () => AddTaskPage()),
+          name: '/home-page',
+          page: () => HomePage(),
+          binding: HomePageBinding(),
+        ),
+        GetPage(
+          name: '/add-task-page',
+          page: () => AddTaskPage(),
+          binding: AddTaskBinding(),
+        ),
       ],
     );
   }

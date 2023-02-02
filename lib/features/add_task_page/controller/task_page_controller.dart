@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app_flutter/core/models/task.dart';
 import 'package:todo_app_flutter/db_helper/db_helper.dart';
+import 'package:todo_app_flutter/features/home_page/controller/home_page_controller.dart';
 import 'package:todo_app_flutter/utils/utils.dart';
 
 class TaskPageController extends GetxController {
@@ -17,12 +18,12 @@ class TaskPageController extends GetxController {
   TextEditingController noteController = TextEditingController();
   final DBHelper _dbHelper = DBHelper();
 
-  void validateData() {
+  Future<void> validateData() async {
     if (titleController.text.isEmpty || noteController.text.isEmpty) {
       Utils.showSnackBar();
     } else {
       // add to database
-      _addTaskToDb();
+      await _addTaskToDb();
       Get.back();
     }
   }
@@ -56,9 +57,12 @@ class TaskPageController extends GetxController {
       repeat: selectedRepeatTime.value,
       isCompleted: 0,
     );
-
     try {
       int id = await _dbHelper.insert(task);
+      if (0 != id) {
+        task.id = id;
+      }
+      await Get.find<HomePageController>().getTasks();
     } catch (exception) {
       print(exception.toString());
     }

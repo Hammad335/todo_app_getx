@@ -29,6 +29,15 @@ class DBHelper {
     }
   }
 
+  Future<List<Map<String, Object?>>> getAllTasks() async {
+    print('getting all tasks');
+    return await _database!.query(_tableName);
+  }
+
+  Future<void> delete(int id) async {
+    await _database!.delete(_tableName, where: 'id=?', whereArgs: [id]);
+  }
+
   Future<int> insert(Task task) async {
     print('inserting task to database');
     try {
