@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app_flutter/core/models/task.dart';
+import 'package:todo_app_flutter/db_helper/db_helper.dart';
 import 'package:todo_app_flutter/utils/utils.dart';
-
-import '../../../themes/themes.dart';
 
 class TaskPageController extends GetxController {
   late BuildContext context;
   Rx<DateTime> selectedDate = DateTime.now().obs;
-  DateTime? datePicker;
   RxString startTime = DateFormat('hh:mm a').format(DateTime.now()).obs;
   RxString endTime = '9:30 AM'.obs;
   RxInt selectedRemindTime = 5.obs;
@@ -16,12 +15,14 @@ class TaskPageController extends GetxController {
   RxInt selectedColorIndex = 0.obs;
   TextEditingController titleController = TextEditingController();
   TextEditingController noteController = TextEditingController();
+  final DBHelper _dbHelper = DBHelper();
 
   void validateData() {
     if (titleController.text.isEmpty || noteController.text.isEmpty) {
       Utils.showSnackBar();
     } else {
-      //todo add data to database
+      // add to database
+      _addTaskToDb();
       Get.back();
     }
   }
@@ -37,9 +38,29 @@ class TaskPageController extends GetxController {
     }
   }
 
-  void setPickedDate() {
-    if (null != datePicker) {
-      selectedDate.value = datePicker!;
+  void setPickedDate(DateTime? pickedDate) {
+    if (null != pickedDate) {
+      selectedDate.value = pickedDate;
+    }
+  }
+
+  Future<void> _addTaskToDb() async {
+    Task task = Task(
+      title: titleController.text,
+      note: noteController.text,
+      date: DateFormat.yMd().format(selectedDate.value),
+      startTime: startTime.value,
+      endTime: endTime.value,
+      color: selectedColorIndex.value,
+      remind: selectedRemindTime.value,
+      repeat: selectedRepeatTime.value,
+      isCompleted: 0,
+    );
+
+    try {
+      int id = await _dbHelper.insert(task);
+    } catch (exception) {
+      print(exception.toString());
     }
   }
 }

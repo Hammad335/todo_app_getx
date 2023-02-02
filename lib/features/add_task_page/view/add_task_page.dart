@@ -49,7 +49,7 @@ class AddTaskPage extends StatelessWidget {
                         DateFormat.yMd().format(_controller.selectedDate.value),
                     widget: IconButton(
                       onPressed: () {
-                        _getDateFromUser(context);
+                        _showDatePicker(context);
                       },
                       icon: Icon(
                         Icons.calendar_today_outlined,
@@ -155,13 +155,13 @@ class AddTaskPage extends StatelessWidget {
     _controller.setPickedTime(pickedTime, isStartTime);
   }
 
-  _getDateFromUser(BuildContext context) async {
-    _controller.datePicker = await showDatePicker(
+  _showDatePicker(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _controller.selectedDate.value,
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
-    _controller.setPickedDate();
+    _controller.setPickedDate(pickedDate);
   }
 }

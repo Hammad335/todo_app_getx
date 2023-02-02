@@ -1,8 +1,8 @@
 class Task {
-  int id;
+  int? id;
   String title;
   String note;
-  bool isCompleted;
+  int isCompleted;
   String date;
   String startTime;
   String endTime;
@@ -11,7 +11,7 @@ class Task {
   String repeat;
 
   Task({
-    required this.id,
+    this.id,
     required this.title,
     required this.note,
     required this.isCompleted,
@@ -43,7 +43,7 @@ class Task {
       id: map['id'] as int,
       title: map['title'] as String,
       note: map['note'] as String,
-      isCompleted: map['isCompleted'] as bool,
+      isCompleted: map['isCompleted'] as int,
       date: map['date'] as String,
       startTime: map['startTime'] as String,
       endTime: map['endTime'] as String,
