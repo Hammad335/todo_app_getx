@@ -38,6 +38,17 @@ class DBHelper {
     await _database!.delete(_tableName, where: 'id=?', whereArgs: [id]);
   }
 
+  Future<void> update(int id) async {
+    await _database!.rawUpdate(
+      '''
+      UPDATE tasks 
+      SET isCompleted = ? 
+      WHERE id = ?
+      ''',
+      [1, id],
+    );
+  }
+
   Future<int> insert(Task task) async {
     print('inserting task to database');
     try {

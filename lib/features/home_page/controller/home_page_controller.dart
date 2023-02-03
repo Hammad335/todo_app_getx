@@ -11,9 +11,18 @@ class HomePageController extends GetxController {
     allTasks.assignAll(tasks.map((task) => Task.fromJson(task)).toList());
   }
 
-  Future<void> delete(int id) async {
+  Future<void> deleteTask(int id) async {
     try {
       await _dbHelper.delete(id);
+      getTasks();
+    } catch (exception) {
+      print(exception.toString());
+    }
+  }
+
+  Future<void> markTaskCompleted(int id) async {
+    try {
+      await _dbHelper.update(id);
       getTasks();
     } catch (exception) {
       print(exception.toString());
