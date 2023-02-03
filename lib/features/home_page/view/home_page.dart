@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app_flutter/core/widgets/task_tile.dart';
 import 'package:todo_app_flutter/features/home_page/controller/home_page_controller.dart';
 import 'package:todo_app_flutter/services/notification_services.dart';
@@ -41,25 +42,32 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const Header(),
-            const DatePickerListView(),
+            DatePickerListView(controller: _controller),
             const SizedBox(height: 20),
             Expanded(
               child: Obx(
                 () => ListView.builder(
                   itemCount: _controller.allTasks.length,
                   itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: GestureDetector(
-                            onTap: () =>
-                                _showBottomSheet(_controller.allTasks[index]),
-                            child: TaskTile(task: _controller.allTasks[index]),
+                    final Task task = _controller.allTasks[index];
+                    if (task.repeat == 'Daily' ||
+                        task.date ==
+                            DateFormat.yMd()
+                                .format(_controller.selectedDate.value)) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: GestureDetector(
+                              onTap: () => _showBottomSheet(task),
+                              child: TaskTile(task: task),
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
                   },
                 ),
               ),

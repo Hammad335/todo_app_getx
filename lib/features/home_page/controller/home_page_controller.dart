@@ -5,6 +5,7 @@ import 'package:todo_app_flutter/db_helper/db_helper.dart';
 class HomePageController extends GetxController {
   final DBHelper _dbHelper = DBHelper();
   RxList<Task> allTasks = RxList();
+  Rx<DateTime> selectedDate = DateTime.now().obs;
 
   Future<void> getTasks() async {
     List<Map<String, Object?>> tasks = await _dbHelper.getAllTasks();

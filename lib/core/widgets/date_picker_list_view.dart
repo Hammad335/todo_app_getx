@@ -1,9 +1,13 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_app_flutter/features/home_page/controller/home_page_controller.dart';
 import 'package:todo_app_flutter/themes/themes.dart';
 
 class DatePickerListView extends StatelessWidget {
-  const DatePickerListView({Key? key}) : super(key: key);
+  final HomePageController controller;
+
+  const DatePickerListView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,11 @@ class DatePickerListView extends StatelessWidget {
         dateTextStyle: Themes.dateTextStyle,
         dayTextStyle: Themes.dayTextStyle,
         monthTextStyle: Themes.monthTextStyle,
-        onDateChange: (DateTime date) {},
+        onDateChange: (DateTime date) {
+          controller.selectedDate.value = date;
+          // controller.selectedDate.refresh();
+          controller.getTasks();
+        },
       ),
     );
   }
