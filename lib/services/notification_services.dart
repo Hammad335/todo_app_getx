@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../core/models/task.dart';
 
 class NotificationServices {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -14,7 +17,7 @@ class NotificationServices {
   }
 
   initializeNotification() async {
-    tz.initializeTimeZones();
+    _configureLocalTimeZone();
     final initializationSettingsIOS = IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
@@ -37,16 +40,14 @@ class NotificationServices {
   }
 
   Future<void> selectNotification(String? payload) async {
-    if (null != payload) {
-      print('notification payload $payload');
-    } else {
-      print('notification done');
-    }
+    if(null != payload){
     Get.to(
       () => Container(
         color: Colors.green,
+        child: Text(payload),
       ),
     );
+    }
   }
 
   Future<void> onDidReceiveLocalNotification(
@@ -88,18 +89,18 @@ class NotificationServices {
       'Theme Changed',
       Get.isDarkMode ? 'Activated Light Theme' : 'Activated Dark Theme',
       platformChannelSpecifics,
-      payload: 'It could be anything you pass',
+      payload: null,
     );
-    scheduledNotification();
+    // scheduledNotification();
   }
 
   // display notification after scheduled time
-  scheduledNotification() async {
+  scheduledNotification({required int hours, required int minutes, required Task task,}) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'scheduled title',
-        'theme changes 5 seconds ago',
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 15)),
+        task.id!.toInt(),
+        task.title,
+        'Your task time just started',
+        _convertDateTime(hours, minutes),
         const NotificationDetails(
           android: AndroidNotificationDetails(
             'your channel id',
@@ -112,6 +113,23 @@ class NotificationServices {
         ),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        );
+  }
+
+  _configureLocalTimeZone()async{
+    tz.initializeTimeZones();
+    final String timeZone= await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZone));
+  }
+
+  tz.TZDateTime _convertDateTime(int hours, int minutes){
+    final tz.TZDateTime now= tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduleTime= tz.TZDateTime(tz.local, now.year, now.month, now.day, hours, minutes);
+    if(scheduleTime.isBefore(now)){
+      scheduleTime.add(const Duration(days: 1));
+    }
+    return scheduleTime;
   }
 }

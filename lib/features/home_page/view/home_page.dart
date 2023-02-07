@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app_flutter/core/widgets/task_tile.dart';
 import 'package:todo_app_flutter/features/home_page/controller/home_page_controller.dart';
-import 'package:todo_app_flutter/services/notification_services.dart';
 import 'package:todo_app_flutter/themes/themes.dart';
 import 'package:todo_app_flutter/utils/utils.dart';
 import '../../../core/models/task.dart';
@@ -20,12 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late NotificationServices notificationServices;
   final HomePageController _controller = Get.find<HomePageController>();
   @override
   void initState() {
     super.initState();
-    notificationServices = NotificationServices();
     _controller.getTasks();
     // notificationServices.requestIOSPermissions();
   }
@@ -36,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: context.theme.backgroundColor,
       appBar: Utils.customAppBar(
         context: context,
-        notificationServices: notificationServices,
+        notificationServices: _controller.notificationServices,
       ),
       body: SafeArea(
         child: Column(
@@ -50,6 +47,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: _controller.allTasks.length,
                   itemBuilder: (context, index) {
                     final Task task = _controller.allTasks[index];
+                    _controller.setScheduleNotifications(task);
                     if (task.repeat == 'Daily' ||
                         task.date ==
                             DateFormat.yMd()
