@@ -7,8 +7,11 @@ class ThemeServices {
   final _key = 'isDarkModeOn';
 
   _saveThemeToStorage(bool isDarkModeOn) => _storage.write(_key, isDarkModeOn);
+
   bool _isDarkModeOn() => _storage.read(_key) ?? false;
+
   ThemeMode get themeMode => _isDarkModeOn() ? ThemeMode.dark : ThemeMode.light;
+
   void switchTheme() {
     Get.changeThemeMode(_isDarkModeOn() ? ThemeMode.light : ThemeMode.dark);
     _saveThemeToStorage(!_isDarkModeOn());

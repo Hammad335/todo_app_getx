@@ -11,21 +11,10 @@ import '../../../core/widgets/bottom_sheet_button.dart';
 import '../../../core/widgets/date_picker_list_view.dart';
 import '../../../core/widgets/header.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   final HomePageController _controller = Get.find<HomePageController>();
-  @override
-  void initState() {
-    super.initState();
-    _controller.getTasks();
-    // notificationServices.requestIOSPermissions();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +27,9 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Header(),
+            Header(isDarkModeOn: Get.isDarkMode),
             DatePickerListView(controller: _controller),
-            const SizedBox(height: 20),
+            const SizedBox(height: 28),
             Expanded(
               child: Obx(
                 () => ListView.builder(
@@ -57,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                         child: SlideAnimation(
                           child: FadeInAnimation(
                             child: GestureDetector(
-                              onTap: () => _showBottomSheet(task),
+                              onTap: () => _showBottomSheet(context, task),
                               child: TaskTile(task: task),
                             ),
                           ),
@@ -76,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _showBottomSheet(Task task) {
+  _showBottomSheet(BuildContext context, Task task) {
     final size = MediaQuery.of(context).size;
     Get.bottomSheet(
       Container(

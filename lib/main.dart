@@ -6,6 +6,7 @@ import 'package:todo_app_flutter/features/add_task_page/binding/add_task_binding
 import 'package:todo_app_flutter/features/add_task_page/view/add_task_page.dart';
 import 'package:todo_app_flutter/features/home_page/binding/home_page_binding.dart';
 import 'package:todo_app_flutter/services/theme_services.dart';
+import 'core/config/scroll_behaviour_modified.dart';
 import 'features/home_page/view/home_page.dart';
 import 'themes/themes.dart';
 
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
       theme: Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().themeMode,
+      builder: (context, widget) {
+        return ScrollConfiguration(
+            behavior: const ScrollBehaviorModified(), child: widget!);
+      },
       initialRoute: '/home-page',
       getPages: [
         GetPage(

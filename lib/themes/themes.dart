@@ -27,6 +27,7 @@ class Themes {
     primaryColor: primaryDark,
     brightness: Brightness.dark,
   );
+
   static TextStyle get headingStyle {
     return GoogleFonts.lato(
         textStyle: TextStyle(
@@ -89,6 +90,26 @@ class Themes {
         fontSize: 12,
         fontWeight: FontWeight.w600,
         color: grey,
+      ),
+    );
+  }
+
+  static TextStyle get notificationTitleStyle {
+    return GoogleFonts.lato(
+      textStyle: const TextStyle(
+        fontSize: 20,
+        // fontWeight: FontWeight.w600,
+        color: black,
+      ),
+    );
+  }
+
+  static TextStyle get notificationSubtitleStyle {
+    return GoogleFonts.lato(
+      textStyle: TextStyle(
+        fontSize: 18,
+        // fontWeight: FontWeight.w600,
+        color: greyDark,
       ),
     );
   }

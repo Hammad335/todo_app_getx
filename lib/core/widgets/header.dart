@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'custom_button.dart';
 
 class Header extends StatelessWidget {
-  const Header({Key? key}) : super(key: key);
+  final bool isDarkModeOn;
+
+  const Header({super.key, required this.isDarkModeOn});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +21,15 @@ class Header extends StatelessWidget {
             children: [
               Text(
                 DateFormat.yMMMd().format(DateTime.now()),
-                style: Themes.headingStyle,
+                style: Themes.headingStyle.copyWith(
+                  color: isDarkModeOn ? Colors.grey[400] : grey,
+                ),
               ),
               Text(
                 'Today',
-                style: Themes.subHeadingStyle,
+                style: Themes.subHeadingStyle.copyWith(
+                  color: isDarkModeOn ? white : black,
+                ),
               ),
             ],
           ),

@@ -12,6 +12,7 @@ import '../../../core/widgets/input_field.dart';
 class AddTaskPage extends StatelessWidget {
   final TaskPageController _controller = Get.find<TaskPageController>();
   final Color? iconColor = Get.isDarkMode ? white : greyDark;
+
   AddTaskPage({Key? key}) : super(key: key);
 
   @override
